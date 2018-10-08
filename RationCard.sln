@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RationCard", "RationCard\RationCard.csproj", "{379241B5-3EE5-4F71-9763-DDD01C8C18E8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RationCardSetup", "RationCardSetup\RationCardSetup.vdproj", "{34C5DFB5-0C8D-4514-822C-761B42FF69C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{379241B5-3EE5-4F71-9763-DDD01C8C18E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{379241B5-3EE5-4F71-9763-DDD01C8C18E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{379241B5-3EE5-4F71-9763-DDD01C8C18E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{379241B5-3EE5-4F71-9763-DDD01C8C18E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34C5DFB5-0C8D-4514-822C-761B42FF69C5}.Debug|Any CPU.ActiveCfg = Release
+		{34C5DFB5-0C8D-4514-822C-761B42FF69C5}.Debug|Any CPU.Build.0 = Release
+		{34C5DFB5-0C8D-4514-822C-761B42FF69C5}.Release|Any CPU.ActiveCfg = Release
+		{34C5DFB5-0C8D-4514-822C-761B42FF69C5}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BC24D62-4128-49B7-ABCF-E8F1A34B6BDE}
+	EndGlobalSection
+EndGlobal

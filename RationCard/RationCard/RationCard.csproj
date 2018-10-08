@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{379241B5-3EE5-4F71-9763-DDD01C8C18E8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RationCard</RootNamespace>
+    <AssemblyName>RationCard</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Helper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ExcelRead\ExcelRead\Dlls\Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FrmAddProductToInventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAddProductToInventory.Designer.cs">
+      <DependentUpon>FrmAddProductToInventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmFrontDeskEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFrontDeskEntry.Designer.cs">
+      <DependentUpon>FrmFrontDeskEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLableSelectForPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLableSelectForPrint.Designer.cs">
+      <DependentUpon>FrmLableSelectForPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrdQuantityInBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrdQuantityInBill.Designer.cs">
+      <DependentUpon>FrmPrdQuantityInBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRationcardHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationcardHome.Designer.cs">
+      <DependentUpon>FrmRationcardHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmStockSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmStockSummary.Designer.cs">
+      <DependentUpon>FrmStockSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DbHelper.cs" />
+    <Compile Include="Helper\FormHelper.cs" />
+    <Compile Include="Helper\MasterDataHelper.cs" />
+    <Compile Include="Interfaces\ICategory.cs" />
+    <Compile Include="Interfaces\ICustomer.cs" />
+    <Compile Include="Interfaces\IRationCard.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="Model\DocumentType.cs" />
+    <Compile Include="FrmCatwiseCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCatwiseCount.Designer.cs">
+      <DependentUpon>FrmCatwiseCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRationEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationEntry.Designer.cs">
+      <DependentUpon>FrmRationEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSearchResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSearchResult.Designer.cs">
+      <DependentUpon>FrmSearchResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\MasterData.cs" />
+    <Compile Include="Model\CategoryWiseSearchResult.cs" />
+    <Compile Include="Model\Uom.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\RationCardDetailExtended.cs" />
+    <Compile Include="Model\RationCardDetail.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Document.cs" />
+    <Compile Include="Model\Hof.cs" />
+    <Compile Include="Model\RelationMaster.cs" />
+    <Compile Include="Model\ProductMaster.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FrmSingleCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSingleCard.Designer.cs">
+      <DependentUpon>FrmSingleCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRationBillDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationBillDetails.Designer.cs">
+      <DependentUpon>FrmRationBillDetails.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FrmAddProductToInventory.resx">
+      <DependentUpon>FrmAddProductToInventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCatwiseCount.resx">
+      <DependentUpon>FrmCatwiseCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFrontDeskEntry.resx">
+      <DependentUpon>FrmFrontDeskEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLableSelectForPrint.resx">
+      <DependentUpon>FrmLableSelectForPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrdQuantityInBill.resx">
+      <DependentUpon>FrmPrdQuantityInBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationcardHome.resx">
+      <DependentUpon>FrmRationcardHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationEntry.resx">
+      <DependentUpon>FrmRationEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSearchResult.resx">
+      <DependentUpon>FrmSearchResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmStockSummary.resx">
+      <DependentUpon>FrmStockSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSingleCard.resx">
+      <DependentUpon>FrmSingleCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationBillDetails.resx">
+      <DependentUpon>FrmRationBillDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="image\Barcodes\Barcode Pages.docx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dlls\Helper.dll" />
+    <Content Include="Dlls\log4net.dll" />
+    <Content Include="image\backgroundLogin.jpg" />
+    <None Include="image\Barcodes\AppPages\CardSearch.png" />
+    <None Include="image\Barcodes\AppPages\CatwiseCount.png" />
+    <None Include="image\Barcodes\AppPages\FrontDeskEntry.png" />
+    <None Include="image\Barcodes\AppPages\RationCardEntry.png" />
+    <None Include="image\Barcodes\AppPages\RationCardHome.png" />
+    <Content Include="image\Barcodes\CardSearch.png" />
+    <Content Include="image\Barcodes\CatwiseCount.png" />
+    <Content Include="image\Barcodes\FrontDeskEntry.png" />
+    <Content Include="image\Barcodes\RationCardEntry.png" />
+    <Content Include="image\Barcodes\RationCardHome.png" />
+    <Content Include="image\btnLogin.png" />
+    <Content Include="image\internet.gif" />
+    <Content Include="image\logo.ico" />
+    <Content Include="image\profilepic.png" />
+    <Content Include="image\profilepic_bckp.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
