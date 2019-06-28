@@ -76,14 +76,6 @@ namespace RationCard
                 Logger.LogInfo("Logged in disguise as user \"" + User.LoginId + "\"");
                 FormHelper.OpenFrmRationcardHome();
                 this.Visible = false;
-                try
-                {
-                    throw new Exception();
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex);
-                }
             }
             else
             {

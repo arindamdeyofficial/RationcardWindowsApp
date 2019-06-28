@@ -51,15 +51,24 @@ namespace RationCard.HelperForms
                 bool isSuccess;
                 string mobileNo = txtMobileNo.Text.Trim();
                 string emailId = txtEmailId.Text.Trim();
-                string code = GenerateSecurityCode(emailId);                
-                EmailHelper.SendSecurityCode(emailId, code, out isSuccess);
-                SmsHelper.SendSms("Your security code for initial setup: " + Environment.NewLine + code, mobileNo, out statusMsg);
-                if (isSuccess)
+                string code = GenerateSecurityCode(emailId);
+                txtCode.Text = code;
+                try
                 {
-                    _codes.Clear();
-                    _codes.AddRange(OprateSecurityCodes(emailId, code, "ADD"));
-                    BindCodeData();
+                    EmailHelper.SendSecurityCode(emailId, code, out isSuccess);
+                    SmsHelper.SendSms("Your security code for initial setup: " + Environment.NewLine + code, mobileNo, out statusMsg);
+                    if (isSuccess)
+                    {
+                        _codes.Clear();
+                        _codes.AddRange(OprateSecurityCodes(emailId, code, "ADD"));
+                        BindCodeData();
+                    }
                 }
+                catch(Exception ex)
+                {
+                    Logger.LogError(ex);
+                }
+                
             }
             else
             {

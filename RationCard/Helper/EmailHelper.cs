@@ -16,7 +16,15 @@ namespace RationCard.Helper
             try
             {                
                 MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                var smtpClient = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("biplabhome@gmail.com", "`28kichuJantegelekichuBoltehoi")
+                };
 
                 mail.From = new MailAddress("biplabhome@gmail.com", "Arindam Dey");
 
@@ -36,11 +44,7 @@ namespace RationCard.Helper
                 mail.Subject = subject;
                 mail.Body = body;
 
-                SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("biplabhome", "nakshal24278465");
-                SmtpServer.EnableSsl = true;
-
-                SmtpServer.Send(mail);
+                smtpClient.Send(mail);
                 isSuccess = true;
             }
             catch (Exception ex)

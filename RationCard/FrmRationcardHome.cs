@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using RationCard.MasterDataManager;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace RationCard
 {
@@ -91,11 +92,11 @@ namespace RationCard
         {
             Application.Exit();
         }
-
+        
         private void btnStock_Click(object sender, EventArgs e)
         {
             string password = DialogConfirm.ShowInputDialog("Please provide password to continue.", "Confirm with Password");
-            string finalPass = SecurityEncrypt.Decrypt(ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
+            string finalPass = SecurityEncrypt.Decrypt("KTCm5OvX6NpnciMPru+tekzrk7V6/z9Z8Q1A9JaTL6A=", "nakshal"); // ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
 
             if ((User.IsSuperadmin) || (password == finalPass))
             {
