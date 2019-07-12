@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{379241B5-3EE5-4F71-9763-DDD01C8C18E8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RationCard</RootNamespace>
+    <AssemblyName>RationCard</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="TextmagicRest, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TextmagicRest.1.0.0.3\lib\net45\TextmagicRest.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DbSaveFireAndForget\DBAppStartManager.cs" />
+    <Compile Include="DbSaveFireAndForget\DBHelperTablesManager.cs" />
+    <Compile Include="DbSaveFireAndForget\DBCleanAuditTablesManager.cs" />
+    <Compile Include="DbSaveFireAndForget\DBRationcardManager.cs" />
+    <Compile Include="DbSaveFireAndForget\DBProductManager.cs" />
+    <Compile Include="DbSaveFireAndForget\DBBillManager.cs" />
+    <Compile Include="FrmCatwiseCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCatwiseCount.Designer.cs">
+      <DependentUpon>FrmCatwiseCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmProductDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProductDetails.Designer.cs">
+      <DependentUpon>FrmProductDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmFrontDeskEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFrontDeskEntry.Designer.cs">
+      <DependentUpon>FrmFrontDeskEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmLableSelectForPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLableSelectForPrint.Designer.cs">
+      <DependentUpon>FrmLableSelectForPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrdQuantityInBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrdQuantityInBill.Designer.cs">
+      <DependentUpon>FrmPrdQuantityInBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRationcardHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationcardHome.Designer.cs">
+      <DependentUpon>FrmRationcardHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmStockDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmStockDetails.Designer.cs">
+      <DependentUpon>FrmStockDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmStockSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmStockSummary.Designer.cs">
+      <DependentUpon>FrmStockSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmUserSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUserSelector.Designer.cs">
+      <DependentUpon>FrmUserSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmAppConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmAppConfig.Designer.cs">
+      <DependentUpon>FrmAppConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmCleanAuditTables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmCleanAuditTables.Designer.cs">
+      <DependentUpon>FrmCleanAuditTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmProductTables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmProductTables.Designer.cs">
+      <DependentUpon>FrmProductTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmUsers.Designer.cs">
+      <DependentUpon>FrmUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmSetup.Designer.cs">
+      <DependentUpon>FrmSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmFrameworkVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmFrameworkVersion.Designer.cs">
+      <DependentUpon>FrmFrameworkVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\FrmConnectionString.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\FrmConnectionString.Designer.cs">
+      <DependentUpon>FrmConnectionString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\MacId.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\MacId.Designer.cs">
+      <DependentUpon>MacId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\HelperMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\HelperMaster.Designer.cs">
+      <DependentUpon>HelperMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\OrphanRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\OrphanRecord.Designer.cs">
+      <DependentUpon>OrphanRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperForms\SecurityCodeMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperForms\SecurityCodeMail.Designer.cs">
+      <DependentUpon>SecurityCodeMail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\AutomapperHelper.cs" />
+    <Compile Include="Helper\ClsPrint.cs" />
+    <Compile Include="Helper\ConfigManager.cs" />
+    <Compile Include="Helper\ConnectionManager.cs" />
+    <Compile Include="Helper\StockPrint.cs" />
+    <Compile Include="Helper\TimeStampHelper.cs" />
+    <Compile Include="Helper\SmsHelper.cs" />
+    <Compile Include="Helper\DbHelper.cs" />
+    <Compile Include="Helper\DialogConfirm.cs" />
+    <Compile Include="Helper\ExcelOperations.cs" />
+    <Compile Include="Helper\FormHelper.cs" />
+    <Compile Include="Helper\FrameworkVersionHelper.cs" />
+    <Compile Include="Helper\EmailHelper.cs" />
+    <Compile Include="Helper\ValidationHelper.cs" />
+    <Compile Include="Helper\ThreadHelper.cs" />
+    <Compile Include="Helper\UserHelper.cs" />
+    <Compile Include="Helper\MacHelper.cs" />
+    <Compile Include="Helper\XmlHelper.cs" />
+    <Compile Include="Helper\Logger.cs" />
+    <Compile Include="MasterDataManager\CardsOfThisFortnightWrapper.cs" />
+    <Compile Include="MasterDataManager\ConfigWrapper.cs" />
+    <Compile Include="MasterDataManager\DistMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\IMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\MasterData.cs" />
+    <Compile Include="MasterDataManager\MasterDataHelper.cs" />
+    <Compile Include="Helper\Network.cs" />
+    <Compile Include="Helper\PrintHelper.cs" />
+    <Compile Include="Helper\SecurityEncrypt.cs" />
+    <Compile Include="Interfaces\ICategory.cs" />
+    <Compile Include="Interfaces\ICustomer.cs" />
+    <Compile Include="Interfaces\IRationCard.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="MasterDataManager\HofMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\UomMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\UomTypeMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\RelationMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\CategoryMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\CategoryWiseSearchResultMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductDeptMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductSubDeptMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductClassMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductSubClassMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductMcMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\ProductBrandMasterDataTypeWrapper.cs" />
+    <Compile Include="MasterDataManager\RoleMasterDataTypeWrapper.cs" />
+    <Compile Include="Model\BillCounter.cs" />
+    <Compile Include="Model\ErrorEnum.cs" />
+    <Compile Include="Model\ProductStockReport.cs" />
+    <Compile Include="Model\Product_Input_Master.cs" />
+    <Compile Include="Model\BillDetails.cs" />
+    <Compile Include="Model\Bill.cs" />
+    <Compile Include="Model\FrameworkVersion.cs" />
+    <Compile Include="Model\DotNetrameworks.cs" />
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\SecurityCode.cs" />
+    <Compile Include="Model\MacIdAssigned.cs" />
+    <Compile Include="Model\MacAddr.cs" />
+    <Compile Include="Model\DocumentType.cs" />
+    <Compile Include="FrmRationEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationEntry.Designer.cs">
+      <DependentUpon>FrmRationEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSearchResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSearchResult.Designer.cs">
+      <DependentUpon>FrmSearchResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\AppStart.cs" />
+    <Compile Include="MasterDataManager\ProductMasterDataTypeWrapper.cs" />
+    <Compile Include="Model\CategoryWiseSearchResult.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\ProductStock.cs" />
+    <Compile Include="Model\ProductClassMaster.cs" />
+    <Compile Include="Model\ProductBrandMaster.cs" />
+    <Compile Include="Model\ProductQuantityMaster.cs" />
+    <Compile Include="Model\ProductMcMaster.cs" />
+    <Compile Include="Model\ProductSubClassMaster.cs" />
+    <Compile Include="Model\ProductSubDeptMaster.cs" />
+    <Compile Include="Model\ProductDeptMaster.cs" />
+    <Compile Include="Model\Distributor.cs" />
+    <Compile Include="Model\UomType.cs" />
+    <Compile Include="Model\Uom.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\RationCardDetailExtended.cs" />
+    <Compile Include="Model\RationCardDetail.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Document.cs" />
+    <Compile Include="Model\Hof.cs" />
+    <Compile Include="Model\RelationMaster.cs" />
+    <Compile Include="Model\ProductMaster.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FrmSingleCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSingleCard.Designer.cs">
+      <DependentUpon>FrmSingleCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRationBillDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRationBillDetails.Designer.cs">
+      <DependentUpon>FrmRationBillDetails.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FrmCatwiseCount.resx">
+      <DependentUpon>FrmCatwiseCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProductDetails.resx">
+      <DependentUpon>FrmProductDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFrontDeskEntry.resx">
+      <DependentUpon>FrmFrontDeskEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLableSelectForPrint.resx">
+      <DependentUpon>FrmLableSelectForPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrdQuantityInBill.resx">
+      <DependentUpon>FrmPrdQuantityInBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationcardHome.resx">
+      <DependentUpon>FrmRationcardHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationEntry.resx">
+      <DependentUpon>FrmRationEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSearchResult.resx">
+      <DependentUpon>FrmSearchResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmStockDetails.resx">
+      <DependentUpon>FrmStockDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmStockSummary.resx">
+      <DependentUpon>FrmStockSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUserSelector.resx">
+      <DependentUpon>FrmUserSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmAppConfig.resx">
+      <DependentUpon>FrmAppConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmCleanAuditTables.resx">
+      <DependentUpon>FrmCleanAuditTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmProductTables.resx">
+      <DependentUpon>FrmProductTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmUsers.resx">
+      <DependentUpon>FrmUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmConnectionString.resx">
+      <DependentUpon>FrmConnectionString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmSetup.resx">
+      <DependentUpon>FrmSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\FrmFrameworkVersion.resx">
+      <DependentUpon>FrmFrameworkVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\MacId.resx">
+      <DependentUpon>MacId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\HelperMaster.resx">
+      <DependentUpon>HelperMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\OrphanRecord.resx">
+      <DependentUpon>OrphanRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperForms\SecurityCodeMail.resx">
+      <DependentUpon>SecurityCodeMail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSingleCard.resx">
+      <DependentUpon>FrmSingleCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRationBillDetails.resx">
+      <DependentUpon>FrmRationBillDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="image\Barcodes\Barcode Pages.docx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dlls\Helper.dll" />
+    <Content Include="Dlls\log4net.dll" />
+    <Content Include="image\arindamdey.png" />
+    <Content Include="image\backgroundLogin.jpg" />
+    <None Include="image\Barcodes\AppPages\CardSearch.png" />
+    <None Include="image\Barcodes\AppPages\CatwiseCount.png" />
+    <None Include="image\Barcodes\AppPages\FrontDeskEntry.png" />
+    <None Include="image\Barcodes\AppPages\RationCardEntry.png" />
+    <None Include="image\Barcodes\AppPages\RationCardHome.png" />
+    <None Include="image\Barcodes\AppPages\stock.png" />
+    <Content Include="image\Barcodes\Count\0.png" />
+    <Content Include="image\Barcodes\Count\1.png" />
+    <Content Include="image\Barcodes\Count\2.png" />
+    <Content Include="image\Barcodes\Count\3.png" />
+    <Content Include="image\Barcodes\Count\4.png" />
+    <Content Include="image\Barcodes\Count\5.png" />
+    <Content Include="image\Barcodes\Count\6.png" />
+    <Content Include="image\Barcodes\Count\7.png" />
+    <Content Include="image\Barcodes\Count\8.png" />
+    <Content Include="image\Barcodes\Count\9.png" />
+    <Content Include="image\Barcodes\Products\Biscuit.png" />
+    <Content Include="image\Barcodes\Products\BleachingPowder.png" />
+    <Content Include="image\Barcodes\Products\Brown gram%28Chola%29.png" />
+    <Content Include="image\Barcodes\Products\CholaDal.png" />
+    <Content Include="image\Barcodes\Products\ClothWhitner.png" />
+    <Content Include="image\Barcodes\Products\DetergentPowder.png" />
+    <Content Include="image\Barcodes\Products\Dhup Agarbatti.png" />
+    <Content Include="image\Barcodes\Products\FloorCleaner.png" />
+    <Content Include="image\Barcodes\Products\MasurDalBig.png" />
+    <Content Include="image\Barcodes\Products\MasurDalSmall.png" />
+    <Content Include="image\Barcodes\Products\Matar Dal.png" />
+    <Content Include="image\Barcodes\Products\Match Stick.png" />
+    <Content Include="image\Barcodes\Products\Mosquito Repellent Agarbatti.png" />
+    <Content Include="image\Barcodes\Products\Mung Dal.png" />
+    <Content Include="image\Barcodes\Products\Mustard Oil.png" />
+    <Content Include="image\Barcodes\Products\Papad.png" />
+    <Content Include="image\Barcodes\Products\Peas%28Matar%29.png" />
+    <Content Include="image\Barcodes\Products\Refine Oil.png" />
+    <Content Include="image\Barcodes\Products\Rice.png" />
+    <Content Include="image\Barcodes\Products\Shari.png" />
+    <Content Include="image\Barcodes\Products\Soap.png" />
+    <Content Include="image\Barcodes\Products\Sugar.png" />
+    <Content Include="image\Barcodes\Products\Suji.png" />
+    <Content Include="image\Barcodes\Products\Tea.png" />
+    <Content Include="image\Barcodes\Products\ToothPaste.png" />
+    <Content Include="image\Barcodes\Products\Wheat Ata.png" />
+    <Content Include="image\Barcodes\Products\Wheat Flour.png" />
+    <Content Include="image\Barcodes\Products\Wheat.png" />
+    <Content Include="image\btnLogin.png" />
+    <Content Include="image\dotnet1to4.PNG" />
+    <Content Include="image\dotNet4.PNG" />
+    <Content Include="image\internet.gif" />
+    <Content Include="image\jayantaghosh.png" />
+    <Content Include="image\logo.ico" />
+    <Content Include="image\logo.jpg" />
+    <Content Include="image\profilepic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,5 +1,4 @@
-# Object file
-*.o
-
-# Ada Library Information
-*.ali
+/.vs
+/RationCard/obj/Debug/*.cache
+/RationCard/obj/Debug/RationCard.csproj.FileListAbsolute.txt
+/RationCard/obj/Debug/RationCard.csprojAssemblyReference.cache
