@@ -258,10 +258,16 @@ namespace RationCard
                 grp1.Controls["txtAdharOrEpic"].Text = grdVwSearchResult.Rows[e.RowIndex].Cells["Adhar_No"].Value.ToString();
 
                 grp3.Controls["txtCardHolderName"].Text = grdVwSearchResult.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+
+                ComboBox cmbHof = (ComboBox)grp3.Controls["cmbHof"];
+                string hofId = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Id"].Value.ToString();
                 CheckBox hofCheck = (CheckBox)grp3.Controls["chkHof"];
                 hofCheck.Checked = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Flag"].Value.ToString() == "True";
                 string hofName = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Name"].Value.ToString();
                 grp3.Controls["cmbHof"].Text = hofName + " || " + cardNo + " || " + mobileNo;
+                //set selected value for cmbHof
+                cmbHof.SelectedValue = hofId;
+                
                 grp3.Controls["txtFatherName"].Text = grdVwSearchResult.Rows[e.RowIndex].Cells["Gaurdian_Name"].Value.ToString();
                 grp3.Controls["cmbRelHof"].Text = grdVwSearchResult.Rows[e.RowIndex].Cells["Relation_With_Hof"].Value.ToString();
                 grp3.Controls["cmbRel"].Text = grdVwSearchResult.Rows[e.RowIndex].Cells["Gaurdian_Relation"].Value.ToString();

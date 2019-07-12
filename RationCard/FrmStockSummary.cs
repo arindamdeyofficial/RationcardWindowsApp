@@ -1,8 +1,10 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using RationCard.MasterDataManager;
 using RationCard.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -112,42 +114,15 @@ namespace RationCard
         {
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@barCode", SqlDbType = SqlDbType.VarChar, Value = txtBarCode.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@articleCode", SqlDbType = SqlDbType.VarChar, Value = txtArticleCode.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@prdName", SqlDbType = SqlDbType.VarChar, Value = txtPrdName.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@description", SqlDbType = SqlDbType.VarChar, Value = txtProdDesc.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@isActive", SqlDbType = SqlDbType.Bit, Value = chkActive.Checked });
-                sqlParams.Add(new SqlParameter { ParameterName = "@isDefaultToGiveRation", SqlDbType = SqlDbType.Bit, Value = chkDefaultToGiveRation.Checked });
-                sqlParams.Add(new SqlParameter { ParameterName = "@isDefaultPrd", SqlDbType = SqlDbType.Bit, Value = chkDefaultProduct.Checked });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dept", SqlDbType = SqlDbType.VarChar, Value = ((cmbDept.SelectedItem == null) ? string.Empty : ((ProductDeptMaster)cmbDept.SelectedItem).ProductDeptMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@subDept", SqlDbType = SqlDbType.VarChar, Value = ((cmbSubDept.SelectedItem == null) ? string.Empty : ((ProductSubDeptMaster)cmbSubDept.SelectedItem).ProductSubDeptMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@class", SqlDbType = SqlDbType.VarChar, Value = ((cmbClass.SelectedItem == null) ? string.Empty : ((ProductClassMaster)cmbClass.SelectedItem).ProductClassMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@subClass", SqlDbType = SqlDbType.VarChar, Value = ((cmbSubClass.SelectedItem == null) ? string.Empty : ((ProductSubClassMaster)cmbSubClass.SelectedItem).ProductSubClassMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mc", SqlDbType = SqlDbType.VarChar, Value = ((cmbMcDesc.SelectedItem == null) ? string.Empty : ((ProductMcMaster)cmbMcDesc.SelectedItem).ProductMcMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mcCode", SqlDbType = SqlDbType.VarChar, Value = txtMcCode.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@brand", SqlDbType = SqlDbType.VarChar, Value = ((cmbBrand.SelectedItem == null) ? string.Empty : ((ProductBrandMaster)cmbBrand.SelectedItem).ProductBrandMasterId) });
-                sqlParams.Add(new SqlParameter { ParameterName = "@brandCompany", SqlDbType = SqlDbType.VarChar, Value = txtBrandCompany.Text.Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dtFrom", SqlDbType = SqlDbType.DateTime, Value = dtFrom.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dtTo", SqlDbType = SqlDbType.DateTime, Value = dtTo.Text });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Product_Search", sqlParams);
-                if ((ds != null) && (ds.Tables.Count > 1) && (ds.Tables[0].Rows.Count > 0))
-                {
-                    DataSet tmpDs = new DataSet();
-                    tmpDs.Tables.Add(ds.Tables[0].Copy());
-                    tmpDs.Tables.Add(ds.Tables[1].Copy());
-                    tmpDs.Tables.Add(ds.Tables[2].Copy());
-                    tmpDs.Tables.Add(ds.Tables[3].Copy());
-                    ShowProductsToGrid(MasterDataHelper.ExtractProductFromDataset(tmpDs));
-                    tmpDs.Reset();
-                }
-                else
-                {
-                    ShowProductsToGrid(new List<Product>());
-                }
-
+                ShowProductsToGrid(DBSaveManager.ProductSearch(txtBarCode.Text.Trim(), txtArticleCode.Text.Trim(), txtPrdName.Text.Trim(), txtProdDesc.Text.Trim()
+                    , chkActive.Checked, chkDefaultToGiveRation.Checked
+                    , chkDefaultProduct.Checked, ((cmbDept.SelectedItem == null) ? string.Empty : ((ProductDeptMaster)cmbDept.SelectedItem).ProductDeptMasterId)
+                    , ((cmbSubDept.SelectedItem == null) ? string.Empty : ((ProductSubDeptMaster)cmbSubDept.SelectedItem).ProductSubDeptMasterId)
+                    , ((cmbClass.SelectedItem == null) ? string.Empty : ((ProductClassMaster)cmbClass.SelectedItem).ProductClassMasterId)
+                    , ((cmbSubClass.SelectedItem == null) ? string.Empty : ((ProductSubClassMaster)cmbSubClass.SelectedItem).ProductSubClassMasterId)
+                    , ((cmbMcDesc.SelectedItem == null) ? string.Empty : ((ProductMcMaster)cmbMcDesc.SelectedItem).ProductMcMasterId)
+                    , txtMcCode.Text.Trim(), ((cmbBrand.SelectedItem == null) ? string.Empty : ((ProductBrandMaster)cmbBrand.SelectedItem).ProductBrandMasterId)
+                    , txtBrandCompany.Text.Trim(), dtFrom.Text, dtTo.Text));
             }
             catch (Exception ex)
             {
@@ -271,7 +246,7 @@ namespace RationCard
             if (grdVwPrds.CurrentRow != null)
             {
                 string password = DialogConfirm.ShowInputDialog("Please provide password to continue.", "Confirm with Password");
-                string finalPass = SecurityEncrypt.Decrypt(ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
+                string finalPass = SecurityEncrypt.Decrypt(ConfigurationManager.AppSettings["CriticalSectionPassword"], "nakshal");
 
                 if (password == finalPass)
                 {
@@ -294,16 +269,11 @@ namespace RationCard
 
         private void DeleteProduct()
         {
+            bool isSuccess;
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@table", SqlDbType = SqlDbType.VarChar, Value = "Product_Master" });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.VarChar, Value = grdVwPrds.CurrentRow.Cells["Product_Master_Identity"].Value.ToString() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = "DELETE" });
-
-                DataSet ds = ConnectionManager.Exec("Sp_ProductTablesData", sqlParams);
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
+                DBSaveManager.DeleteProduct(grdVwPrds.CurrentRow.Cells["Product_Master_Identity"].Value.ToString(), out isSuccess);
+                if (isSuccess)
                 {
                     MessageBox.Show("Product successfuly deleted");
                     MasterData.PrdData.Refresh();

@@ -5,6 +5,7 @@ using RationCard.Model;
 using System.Web;
 using System.Net;
 using RationCard.MasterDataManager;
+using System.Configuration;
 
 namespace RationCard.Helper
 {
@@ -23,7 +24,7 @@ namespace RationCard.Helper
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("biplabhome@gmail.com", "`28kichuJantegelekichuBoltehoi")
+                    Credentials = new NetworkCredential("biplabhome@gmail.com", SecurityEncrypt.Decrypt(ConfigurationManager.AppSettings["MailSecretKey"].ToString(), "nakshal"))
                 };
 
                 mail.From = new MailAddress("biplabhome@gmail.com", "Arindam Dey");
@@ -50,7 +51,7 @@ namespace RationCard.Helper
             catch (Exception ex)
             {
                 isSuccess = false;
-                Logger.LogError(ex);
+                //Logger.LogError(ex);
             }
         }
         public static void SendErrorMail(string errMsg)

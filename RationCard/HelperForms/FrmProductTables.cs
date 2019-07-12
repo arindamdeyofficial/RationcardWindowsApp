@@ -1,4 +1,5 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using RationCard.MasterDataManager;
 using RationCard.Model;
 using System;
@@ -32,31 +33,25 @@ namespace RationCard.HelperForms
                 OperateProductTables(((Distributor)cmbUserList.SelectedItem).Dist_Id, string.Empty, string.Empty, "GET");
             }
         }
-        private DataSet OperateProductTables(string distId, string tableName, string id, string action)
+        private List<Product_Input_Master> OperateProductTables(string distId, string tableName, string id, string action)
         {
-            DataSet ds = null;
+            bool isSuccess;
+            string statusMsg = string.Empty;
+            List<Product_Input_Master> prdData = new List<Product_Input_Master>();
+
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = distId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@table", SqlDbType = SqlDbType.VarChar, Value = tableName });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.VarChar, Value = id });
-                sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = action });
-
-                ds = ConnectionManager.Exec("Sp_ProductTablesData", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
+                prdData = DBSaveManager.OperateProductTablesAndReturnData(distId, tableName, id, action, out isSuccess, out statusMsg);
+                if (isSuccess)
                 {
-                    MessageBox.Show(ds.Tables[ds.Tables.Count - 1].Rows[0][0].ToString() 
-                                        + Environment.NewLine 
-                                        + ds.Tables[ds.Tables.Count - 1].Rows[0][1].ToString());
+                    MessageBox.Show(statusMsg);
                 }
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex);
             }
-            return ds;
+            return prdData;
         }
 
         private void btnGetProduct_Input_Master_Click(object sender, EventArgs e)
@@ -67,17 +62,10 @@ namespace RationCard.HelperForms
                     , "Product_Input_Master", string.Empty, "GET"));
             }
         }
-        private void BinddrGrProduct_Input_Master(DataSet tmpData)
+        private void BinddrGrProduct_Input_Master(List<Product_Input_Master> tmpPrdData)
         {
             drGrProduct_Input_Master.DataSource = null;
-            drGrProduct_Input_Master.DataSource =
-            tmpData.Tables[0].AsEnumerable().Select(item => new Product_Input_Master
-            {
-                Product_Input_Identity = item["Product_Input_Identity"].ToString(),
-                Dist_Id = item["Dist_Id"].ToString(),
-                Created_Date = item["Created_Date"].ToString(),
-                Product_Xml = item["Product_Xml"].ToString()
-            }).ToList();
+            drGrProduct_Input_Master.DataSource = tmpPrdData;
         }
 
         private void btnDelProduct_Master_Click(object sender, EventArgs e)

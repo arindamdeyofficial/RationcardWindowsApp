@@ -1,4 +1,5 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using RationCard.Model;
 using System;
 using System.Collections.Generic;
@@ -86,24 +87,8 @@ namespace RationCard.HelperForms
         {
             List<SecurityCode> codes = new List<SecurityCode>();
             try
-            {               
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Email", SqlDbType = SqlDbType.VarChar, Value = email });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Code", SqlDbType = SqlDbType.VarChar, Value = code });
-                sqlParams.Add(new SqlParameter { ParameterName = "@operation", SqlDbType = SqlDbType.VarChar, Value = operation });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Security_Code_Get_Add", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
-                {
-                    codes.AddRange(ds.Tables[0].AsEnumerable().Select(i => new SecurityCode
-                    {
-                        Security_Code_Identity = i["Security_Code_Identity"].ToString(),
-                        Security_Code_In_Mail = i["Security_Code_In_Mail"].ToString(),
-                        Mail_Id = i["Mail_Id"].ToString(),
-                        Created_Date = i["Created_Date"].ToString()
-                    }));
-                }
+            {
+                DBSaveManager.OprateSecurityCodes(email, code, operation);
             }
             catch (Exception ex)
             {

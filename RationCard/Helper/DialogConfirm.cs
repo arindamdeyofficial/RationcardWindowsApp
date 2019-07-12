@@ -54,5 +54,49 @@ namespace RationCard.Helper
 
             return prompt.ShowDialog() == DialogResult.OK ? "" : "";
         }
+
+        public static void ShowInfohScreen(string text, bool isToClose = false)
+        {
+            try
+            {
+                Form frmObj = Application.OpenForms["FrmSplashScreen"];
+                if (isToClose)
+                {
+                    frmObj.Close();
+                }
+                else
+                {
+                    if (frmObj != null)
+                    {
+                        frmObj.Show();
+                        frmObj.Controls["txtLable"].Text = text;
+                    }
+                    else
+                    {
+                        frmObj = new Form()
+                        {
+                            Width = 300,
+                            Height = 200,
+                            FormBorderStyle = FormBorderStyle.None,
+                            AllowTransparency = true,
+                            TransparencyKey = Color.Turquoise,
+                            BackColor = Color.Turquoise,
+                            Opacity = .65,
+                            StartPosition = FormStartPosition.CenterScreen,
+                            Font = new Font(FontFamily.GenericSerif, 10),
+                            Name = "FrmSplashScreen"
+                        };
+                        Label textLabel = new Label() { Name = "txtLable", Left = 50, Top = 20, Width = 200, Height = 100, Text = text };
+                        frmObj.Controls.Add(textLabel);
+
+                        frmObj.ShowDialog();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex);
+            }
+        }
     }
 }

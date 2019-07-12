@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using RationCard.DbSaveFireAndForget;
 using RationCard.Helper;
 using RationCard.MasterDataManager;
 using RationCard.Model;
@@ -10,6 +11,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RationCard
@@ -31,7 +34,8 @@ namespace RationCard
         int _billPrintNumberOfCopies = int.Parse(ConfigManager.GetConfigValue("BillPrintNumberOfCopies"));
         float _chnkHeight = 0;
         float _chnkWidth = 0;
-        Bill _billObj = new Bill();
+        Bill _billObj = new Bill();        
+
         int _totalBillCounter = 0;
         int _dayBillCounterOrCount = 0;
         bool _isDrpClicked = false;
@@ -147,31 +151,26 @@ namespace RationCard
                 Logger.LogError(ex);
             }
             //Fetch bill counter
-            try
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
+            List<BillCounter> billCounters = DBSaveManager.FetchBillCounter(out errType, out errMsg, out isSuccess);
+            if(isSuccess)
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = "VIEW" });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Fetch_Bill_Counter", sqlParams);
-                if ((ds != null) && (ds.Tables.Count > 0))
+                int count = 1;
+                int convertedNum = 0;
+                foreach (BillCounter r in billCounters)
                 {
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        int count = 1;
-                        int convertedNum = 0;
-                        foreach (DataRow r in ds.Tables[0].Rows)
-                        {
-                            lblCashMemoCounter.Text = r["TotalBillCounter"].ToString();
-                            _totalBillCounter = int.TryParse(lblCashMemoCounter.Text, out convertedNum) ? convertedNum : 0;
+                    lblCashMemoCounter.Text = r.TotalBillCOunter;
+                    _totalBillCounter = int.TryParse(lblCashMemoCounter.Text, out convertedNum) ? convertedNum : 0;
 
-                            lblSerialNumber.Text = r["DayBillCounterOrCount"].ToString();
-                            _dayBillCounterOrCount = int.TryParse(lblSerialNumber.Text, out convertedNum) ? convertedNum : 0;
-                            
-                            count++;
-                        }
-                    }
+                    lblSerialNumber.Text = r.DailyBillCOunterOrCount;
+                    _dayBillCounterOrCount = int.TryParse(lblSerialNumber.Text, out convertedNum) ? convertedNum : 0;
+
+                    count++;
                 }
+
                 //Assign prd list to prd dropdown
                 cmbCommodity.DataSource = MasterData.PrdData.Data;
                 cmbCommodity.ValueMember = "Product_Master_Identity";
@@ -181,10 +180,6 @@ namespace RationCard
 
                 lblBalRs.Text = "";
                 cmbCommodity.Select();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex);
             }
         }
 
@@ -211,10 +206,11 @@ namespace RationCard
                 Logger.LogError(ex);
             }
         }
-        private void SaveBillToDrive()
+        private Bill SaveBillToDrive()
         {
+            var billObj = new Bill();
             try
-            {
+            {                
                 string googleDrivePath = ConfigManager.GetConfigValue("GoogleDrivePath");
                 string billSavePath = ConfigManager.GetConfigValue("BillSavePath");
                 _billSavePath = googleDrivePath + billSavePath + TimeStampHelper.GetDateStamp();
@@ -558,7 +554,7 @@ namespace RationCard
                     tmpPdfWriter.CloseStream = false;
                     tmpPdfDoc.Close();
                     tmpPdfWriter.Close();
-                }
+                }                
 
                 iTextSharp.text.Rectangle pgSize = new iTextSharp.text.Rectangle(_chnkWidth, _chnkHeight);
                 iTextSharp.text.Document pdfDoc = new iTextSharp.text.Document(pgSize, 0, 0, 0, 0);
@@ -575,38 +571,23 @@ namespace RationCard
             {
                 Logger.LogError(ex);
             }
+            return _billObj;
         }
-
-        private void SaveBillToDb()
+        
+        private void SaveBill()
         {
-            try
-            {
-                string billXml = _billObj.SerializeXml<Bill>();
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@billData", SqlDbType = SqlDbType.Xml, Value = billXml });
+            var billObj = SaveBillToDrive();
 
-                DataSet ds = ConnectionManager.Exec("Sp_Save_Bill", sqlParams);
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[2].Rows.Count > 0)&& (ds.Tables[2].Rows[0][0].Equals("SUCCESS")))
-                {
-                    MasterData.AllCardsOfThisFortnight.Refresh();
-                    Logger.LogInfo("Bill saved to Db Successfully. Bill XML : " + Environment.NewLine + billXml);
-                    FrmFrontDeskEntry frm =(FrmFrontDeskEntry)FormHelper.OpenFrmFrontDeskEntry();
-                    ((DataGridView)frm.Controls["grdVwSearchResult"]).DataSource = null;
-                    ((Label)frm.Controls["lblCardCount"]).Text = "";
-                    ((TextBox)frm.Controls["txtRationcardNumber"]).Focus();
-                    FormHelper.CloseFrmPrdQuantityInBill();
-                    FormHelper.CloseRationBillDetails();
-                }
-                else
-                {
-                    Logger.LogError("Bill save to Db Failure.Bill XML: " + Environment.NewLine + billXml);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex);
-            }
+            //Fire & Forget save bills to db
+            //Add DB save as task for parallelism
+            DBSaveManager.AddTaskToBillSaveQueue(billObj);
+
+            FrmFrontDeskEntry frm = (FrmFrontDeskEntry)FormHelper.OpenFrmFrontDeskEntry();
+            ((DataGridView)frm.Controls["grdVwSearchResult"]).DataSource = null;
+            ((Label)frm.Controls["lblCardCount"]).Text = "";            
+            FormHelper.CloseFrmPrdQuantityInBill();            
+            ((TextBox)frm.Controls["txtRationcardNumber"]).Focus();
+            FormHelper.CloseRationBillDetails();
         }
 
         private void cmbCommodity_SelectedIndexChanged(object sender, EventArgs e)
@@ -925,15 +906,12 @@ namespace RationCard
 
         private void btnSaveAndPrint_Click(object sender, EventArgs e)
         {
-            SaveBillToDrive();            
+            SaveBill();
             PrintHelper.PrintBill(_billSavePath + _fileName, _billPrintNumberOfCopies, _chnkHeight, _chnkWidth);
-            SaveBillToDb();
-        }
-
+        }        
         private void btnSaveBill_Click(object sender, EventArgs e)
         {
-            SaveBillToDrive();
-            SaveBillToDb();
+            SaveBill();
         }
 
         private void grdVwMembers_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

@@ -76,7 +76,7 @@
             // 
             // LoginPanel
             // 
-            this.LoginPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LoginPanel.BackgroundImage")));
+            this.LoginPanel.BackgroundImage = global::RationCard.Properties.Resources.backgroundLogin;
             this.LoginPanel.Controls.Add(this.lblTempPass);
             this.LoginPanel.Controls.Add(this.pictureBox2);
             this.LoginPanel.Controls.Add(this.groupBox1);
@@ -100,7 +100,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Image = global::RationCard.Properties.Resources.btnLogin;
             this.pictureBox2.Location = new System.Drawing.Point(575, 175);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox2.Name = "pictureBox2";
@@ -191,6 +191,7 @@
             // 
             // picProfile
             // 
+            this.picProfile.Image = global::RationCard.Properties.Resources.jayantaghosh;
             this.picProfile.Location = new System.Drawing.Point(591, 11);
             this.picProfile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picProfile.Name = "picProfile";

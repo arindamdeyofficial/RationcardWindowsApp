@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmRationBillDetails));
             this.grdVwMembers = new System.Windows.Forms.DataGridView();
             this.btnSaveBill = new System.Windows.Forms.Button();
             this.lblDt = new System.Windows.Forms.Label();
@@ -338,7 +337,7 @@
             // 
             // picNetwork
             // 
-            this.picNetwork.Image = ((System.Drawing.Image)(resources.GetObject("picNetwork.Image")));
+            this.picNetwork.Image = global::RationCard.Properties.Resources.internet;
             this.picNetwork.Location = new System.Drawing.Point(1106, 74);
             this.picNetwork.Name = "picNetwork";
             this.picNetwork.Size = new System.Drawing.Size(82, 76);

@@ -9,6 +9,7 @@ using RationCard.Model;
 using System.Configuration;
 using RationCard.Helper;
 using RationCard.MasterDataManager;
+using RationCard.DbSaveFireAndForget;
 
 namespace RationCard
 {    
@@ -270,77 +271,39 @@ namespace RationCard
 
         private void Save()
         {
+            bool isSuccess;
+            string msgToShow = string.Empty;
             try
             {
                 //Logger.LogInfo(dateTimePicker1.Value.ToString());
                 dateTimePicker1.Format = DateTimePickerFormat.Custom;
                 dateTimePicker1.CustomFormat = "MM-dd-yyyy";
 
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = User.MacId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@rationCardId", SqlDbType = SqlDbType.VarChar, Value = lblRationCardId.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@categoryId", SqlDbType = SqlDbType.VarChar, Value = cmbCat.SelectedValue });
-                sqlParams.Add(new SqlParameter { ParameterName = "@categoryDesc", SqlDbType = SqlDbType.VarChar, Value = cmbCat.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@CardNo", SqlDbType = SqlDbType.VarChar, Value = cmbCat.Text + "-" + txtCardNo.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@customerId", SqlDbType = SqlDbType.VarChar, Value = lblCustId.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@adhar", SqlDbType = SqlDbType.VarChar, Value = txtAdharOrEpic.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@cardHolderName", SqlDbType = SqlDbType.VarChar, Value = txtCardHolderName.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@isHof", SqlDbType = SqlDbType.VarChar, Value = chkHof.Checked ? "1" : "0" });
-                sqlParams.Add(new SqlParameter { ParameterName = "@hofId", SqlDbType = SqlDbType.VarChar, Value = chkHof.Checked ? lblCustId.Text : "" });
-                sqlParams.Add(new SqlParameter { ParameterName = "@hofName", SqlDbType = SqlDbType.VarChar, Value = cmbHof.Text.Split(new string[] { "||" }, StringSplitOptions.None)[0].Trim() });
-                sqlParams.Add(new SqlParameter { ParameterName = "@RelWithHofId", SqlDbType = SqlDbType.VarChar, Value = ((cmbRelHof.SelectedValue != null) ? cmbRelHof.SelectedValue : "") });
-                sqlParams.Add(new SqlParameter { ParameterName = "@RelWithHofDesc", SqlDbType = SqlDbType.VarChar, Value = cmbRelHof.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@FatherName", SqlDbType = SqlDbType.VarChar, Value = txtFatherName.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@typeOfRelationId", SqlDbType = SqlDbType.VarChar, Value = ((cmbRel.SelectedValue != null) ? cmbRel.SelectedValue : "") });
-                sqlParams.Add(new SqlParameter { ParameterName = "@typeOfRelationDesc", SqlDbType = SqlDbType.VarChar, Value = cmbRel.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@activeOrInactiveDt", SqlDbType = SqlDbType.VarChar, Value = DateTime.Parse(dateTimePicker1.Value.ToString()).ToString("MM-dd-yyyy HH:mm:ss") });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mobileNo", SqlDbType = SqlDbType.VarChar, Value = txtMobileNo.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@age", SqlDbType = SqlDbType.VarChar, Value = txtAge.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@isActive", SqlDbType = SqlDbType.VarChar, Value = chkActive.Checked ? "1" : "0" });
-                sqlParams.Add(new SqlParameter { ParameterName = "@address", SqlDbType = SqlDbType.VarChar, Value = txtAddress.Text });
-                sqlParams.Add(new SqlParameter { ParameterName = "@remarks", SqlDbType = SqlDbType.VarChar, Value = txtRemarks.Text });
+                string hofId = cmbHof.SelectedValue.ToString();
 
-                DataSet ds = ConnectionManager.Exec("Sp_RationCard_Save", sqlParams);
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
+                DBSaveManager.SaveRationCard(rationCardId: lblRationCardId.Text, categoryId: cmbCat.SelectedValue.ToString(), categoryDesc: cmbCat.Text, CardNo: cmbCat.Text + "-" + txtCardNo.Text
+                    , customerId: lblCustId.Text, adhar: txtAdharOrEpic.Text, cardHolderName: txtCardHolderName.Text, isHof: (chkHof.Checked ? "1" : "0")
+                    , hofId: hofId, hofName: cmbHof.Text.Split(new string[] { "||" }, StringSplitOptions.None)[0].Trim()
+                    , RelWithHofId: ((cmbRelHof.SelectedValue != null) ? cmbRelHof.SelectedValue.ToString() : ""), RelWithHofDesc: cmbRelHof.Text
+                    , FatherName: txtFatherName.Text, typeOfRelationId: ((cmbRel.SelectedValue != null) ? cmbRel.SelectedValue.ToString() : "")
+                    , typeOfRelationDesc: cmbRel.Text, activeOrInactiveDt: DateTime.Parse(dateTimePicker1.Value.ToString()).ToString("MM-dd-yyyy HH:mm:ss")
+                    , mobileNo: txtMobileNo.Text, age: txtAge.Text, isActive: (chkActive.Checked ? "1" : "0"), address: txtAddress.Text
+                    , remarks: txtRemarks.Text, isSuccess: out isSuccess, msgToShow: out msgToShow);
+
+                if(!isSuccess)
                 {
-                    bool isSuccess = true; ;
-                    string isInputSuccess = ds.Tables[0].Rows[0][0].ToString();
-                    string cardMsg = ds.Tables[0].Rows[0][1].ToString();
-                    string custMsg = ds.Tables[0].Rows[0][2].ToString();
-                    if (isInputSuccess.Contains("FAILURE"))
-                    {
-                        txtMsg.Text += isInputSuccess;
-                        isSuccess = false;
-                    }
-                    if (cardMsg.Contains("FAILURE"))
-                    {
-                        txtMsg.Text += cardMsg;
-                        isSuccess = false;
-                    }
-                    if (custMsg.Contains("FAILURE"))
-                    {
-                        txtMsg.Text += custMsg;
-                        isSuccess = false;
-                    }
-
-                    if (isSuccess)
-                    {
-                        MessageBox.Show("Rationcard saved successfully.");
-
-                        //Refresh related Masterdata
-                        MasterData.Hofs.Refresh();
-                        MasterData.Relations.Refresh();
-
-                        RefreshCatWiseCount();
-                        ResetForm();
-                        FetchFormData();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Rationcard not saved due to some error. Please contact administrator.");
-                    }
+                    MessageBox.Show(msgToShow);
                 }
+                else
+                {
+                    MessageBox.Show("Rationcard Details successfuly saved...");
+                }
+                
+                //Refresh the form data for new entry
+                RefreshCatWiseCountInUi();
+                ResetForm();
+                FetchFormData();
+
                 dateTimePicker1.Format = DateTimePickerFormat.Long;
                 dateTimePicker1.CustomFormat = null;
             }
@@ -359,7 +322,7 @@ namespace RationCard
                 if (lblIsEdit.Text == "1")
                 {
                     string password = DialogConfirm.ShowInputDialog("Please provide password to continue.", "Confirm with Password");
-                    string finalPass = SecurityEncrypt.Decrypt(ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
+                    string finalPass = SecurityEncrypt.Decrypt(ConfigurationManager.AppSettings["CriticalSectionPassword"].ToString(), "nakshal");
 
                     if (password == finalPass)
                     {
@@ -385,21 +348,12 @@ namespace RationCard
             }
         }
 
-        public void RefreshCatWiseCount()
+        public void RefreshCatWiseCountInUi()
         {
             try
             {
-                //refresh catwise count
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_Catwise_Count", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
-                {
-                    _catWiseCount = ds.Tables[0].AsEnumerable().Select(i => new Category { Cat_Desc = i[1].ToString(), CardCount = i[2].ToString(), FamilyCount = i[3].ToString() }).ToList();
-                    var frmObj = (FrmCatwiseCount)FormHelper.OpenFrmCatwiseCount();
-                    frmObj.RefreshGrid(_catWiseCount);
-                }
+                var frmObj = (FrmCatwiseCount)FormHelper.OpenFrmCatwiseCount();
+                frmObj.RefreshGrid(DBSaveManager.CatWiseCardCountData);
             }
             catch(Exception ex)
             {
@@ -413,19 +367,16 @@ namespace RationCard
             {
                 txtMsg.Text = "";
                 string password = DialogConfirm.ShowInputDialog("Please provide password to continue.", "Confirm with Password");
-                string finalPass = SecurityEncrypt.Decrypt(ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
+                string finalPass = SecurityEncrypt.Decrypt(ConfigurationManager.AppSettings["CriticalSectionPassword"], "nakshal");
 
                 if (password == finalPass)
                 {
-                    List<SqlParameter> sqlParams = new List<SqlParameter>();
-                    sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                    sqlParams.Add(new SqlParameter { ParameterName = "@rationCardId", SqlDbType = SqlDbType.VarChar, Value = lblRationCardId.Text });
-                    sqlParams.Add(new SqlParameter { ParameterName = "@customerId", SqlDbType = SqlDbType.VarChar, Value = lblCustId.Text });
-                    DataSet ds = ConnectionManager.Exec("Sp_RationCard_Delete", sqlParams);
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
+                    bool isSuccess;
+                    string msg = DBSaveManager.RationcardDelete(lblRationCardId.Text, lblCustId.Text, out isSuccess);
+                    if (isSuccess)
                     {
-                        txtMsg.Text = ds.Tables[0].Rows[0][1].ToString();
-                        RefreshCatWiseCount();
+                        txtMsg.Text = msg;
+                        RefreshCatWiseCountInUi();
                         ResetForm();
                         FetchFormData();
                     }
@@ -447,7 +398,7 @@ namespace RationCard
 
         private void countToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshCatWiseCount(); 
+            RefreshCatWiseCountInUi(); 
         }
 
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
@@ -456,6 +407,8 @@ namespace RationCard
             if (frmObj != null)
             {
                 frmObj.Visible = true;
+
+
                 frmObj.Focus();
             }
             else
@@ -632,52 +585,13 @@ namespace RationCard
             {
                 try
                 {
-                    List<SqlParameter> sqlParams = new List<SqlParameter>();
-                    sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                    sqlParams.Add(new SqlParameter { ParameterName = "@checkName", SqlDbType = SqlDbType.VarChar, Value = checkBy });
-                    sqlParams.Add(new SqlParameter { ParameterName = "@param", SqlDbType = SqlDbType.VarChar, Value = val });
-                    DataSet ds = ConnectionManager.Exec("Sp_Unique_Check", sqlParams);
-                    if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[1].Rows.Count > 0))
+                    bool isDuplicate, isRecordExists;
+                    string finalMsg = DBSaveManager.DuplicateCheck(val,checkBy,out isDuplicate, out isRecordExists, out _cardExists, out _adharExists, out _mobileNoexists);
+                    if (isRecordExists)
                     {
-                        if (!(ds.Tables[1].Rows[0][0].ToString().Contains("SUCCESS")))
+                        if (isDuplicate)
                         {
-                            string msg = "";
-                            foreach (DataRow r in ds.Tables[1].Rows)
-                            {
-                                msg += r["MSG"].ToString() + Environment.NewLine;
-                            }
-                            MessageBox.Show(msg);
-                            switch (ds.Tables[0].Rows[0]["DUPLICATE_TYPE"].ToString())
-                            {
-                                case "RATIONCARD_DUPLICATE":
-                                    _cardExists = true;
-                                    break;
-                                case "ADHARCARD_DUPLICATE":
-                                    _adharExists = true;
-                                    break;
-                                case "MOBILENO_DUPLICATE":
-                                    _mobileNoexists = true;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            switch (checkBy)
-                            {
-                                case "RATIONCARD":
-                                    _cardExists = false;
-                                    break;
-                                case "ADHARCARD":
-                                    _adharExists = false;
-                                    break;
-                                case "MOBILENO":
-                                    _mobileNoexists = false;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            MessageBox.Show(finalMsg);
                         }
                         if (_cardExists || _adharExists)
                             btnSave.Enabled = false;

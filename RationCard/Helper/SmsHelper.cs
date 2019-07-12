@@ -10,7 +10,11 @@ namespace RationCard.Helper
     public static class SmsHelper
     {
         public static bool _isSendSms = SendSmsCheck();
-        static string _superAdminMobiles;
+        static string _superAdminMobiles = string.Empty;
+        static SmsHelper()
+        {
+            _superAdminMobiles = SecurityEncrypt.Decrypt(ConfigManager.GetConfigValue("SuperadminMobileNumber"), "nakshal");
+        }
         private static bool SendSmsCheck()
         {           
             return ConfigManager.GetConfigValue("SmsSendAllowed") == "TRUE";
@@ -66,7 +70,7 @@ namespace RationCard.Helper
             }
             else
             {
-                _superAdminMobiles = "9830609366";
+               // _superAdminMobiles = "9830609366";
             }
             msg = "Hello " + User.Name + " !" + Environment.NewLine + msg + Environment.NewLine + "- RationcardRegister";
             return SmsHelper.SendSms(msg, _superAdminMobiles + "," + User.MobileNo + (!string.IsNullOrEmpty(User.MobileNoToNotifyViaSms) ? ("," + User.MobileNoToNotifyViaSms) : ""), out statusMsg);
@@ -81,7 +85,7 @@ namespace RationCard.Helper
             }
             else
             {
-                _superAdminMobiles = "9830609366";
+                //_superAdminMobiles = "9830609366";
             }
             msg = "Hello " + User.Name + " !" + Environment.NewLine + msg + Environment.NewLine + "- RationcardRegister";
             return SmsHelper.SendSms(msg, _superAdminMobiles, out statusMsg);

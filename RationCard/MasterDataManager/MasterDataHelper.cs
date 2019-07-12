@@ -13,6 +13,10 @@ namespace RationCard.MasterDataManager
     {
         public static CategoryWiseSearchResult SearchCard(string searchBy, string searchText, string searchCatId, bool fetchOnlyRecentData = false)
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             int convertedNum = 0;
             var result = new CategoryWiseSearchResult();
             result.CardSearchResult = new List<RationCardDetail>();
@@ -34,7 +38,7 @@ namespace RationCard.MasterDataManager
                 });
                 sqlParams.Add(new SqlParameter { ParameterName = "@dtTo", SqlDbType = SqlDbType.VarChar, Value = DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss") });
 
-                DataSet ds = ConnectionManager.Exec("Sp_RationCard_Search", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_RationCard_Search", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
                 {
@@ -93,6 +97,10 @@ namespace RationCard.MasterDataManager
         }
         public static RationCardDetail FetchFamilyCount(string custId)
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             int convertedNum = 0;
             RationCardDetail card = new RationCardDetail();
             try
@@ -101,7 +109,7 @@ namespace RationCard.MasterDataManager
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
                 sqlParams.Add(new SqlParameter { ParameterName = "@Id", SqlDbType = SqlDbType.VarChar, Value = custId });
 
-                DataSet ds = ConnectionManager.Exec("Sp_GetCardCount", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetCardCount", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 1))
                 {
@@ -121,12 +129,16 @@ namespace RationCard.MasterDataManager
         }
 
         public static void FetchMasterData()
-        {            
+        {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 DataSet tmpDs = new DataSet();
                 if ((ds != null) && (ds.Tables.Count > 0))
@@ -704,11 +716,15 @@ namespace RationCard.MasterDataManager
 
         public static void FetchHofData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetHofMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetHofMasterData", sqlParams, out errType, out errMsg, out isSuccess);
                 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -723,11 +739,15 @@ namespace RationCard.MasterDataManager
 
         public static void FetchCategoryData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetCategoryMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetCategoryMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -742,11 +762,15 @@ namespace RationCard.MasterDataManager
 
         public static void FetchCardsOfThisFortnight()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_CardsInThisFortnight", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_CardsInThisFortnight", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -760,11 +784,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchRelationData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetRelationMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetRelationMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -778,11 +806,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchProductData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetProductMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetProductMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -796,11 +828,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchUomData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetUomMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetUomMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -814,11 +850,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchDeptData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetDeptMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetDeptMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -832,11 +872,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchSubDeptData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetSubDeptMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetSubDeptMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -850,11 +894,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchClassData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetClassMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetClassMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -869,11 +917,15 @@ namespace RationCard.MasterDataManager
 
         public static void FetchSubClassData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetSubClassMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetSubClassMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -887,11 +939,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchMcData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetMcMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetMcMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -905,11 +961,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchBrandData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetBrandMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetBrandMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -923,11 +983,15 @@ namespace RationCard.MasterDataManager
         }
         public static void FetchRoleData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                DataSet ds = ConnectionManager.Exec("Sp_GetRoleMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetRoleMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -964,10 +1028,14 @@ namespace RationCard.MasterDataManager
 
         public static void FetchDistributorData()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
-                DataSet ds = ConnectionManager.Exec("Sp_GetDistributorMasterData", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_GetDistributorMasterData", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -982,6 +1050,10 @@ namespace RationCard.MasterDataManager
 
         public static void FetchConfig(string distId = "", string keyText = "", string keyVal = "", int active = 1, string operation = "GET", string cloneFromDistId = "")
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             distId = (string.IsNullOrEmpty(distId.Trim())) ? User.DistId : distId;
             if(operation == "CLONE")
             {
@@ -997,7 +1069,7 @@ namespace RationCard.MasterDataManager
                 sqlParams.Add(new SqlParameter { ParameterName = "@cloneFromDistId", SqlDbType = SqlDbType.VarChar, Value = cloneFromDistId });
                 sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = operation });
 
-                DataSet ds = ConnectionManager.Exec("Sp_ConfigOperation", sqlParams);
+                DataSet ds = ConnectionManager.Exec("Sp_ConfigOperation", sqlParams, out errType, out errMsg, out isSuccess);
 
                 if ((ds != null) && (ds.Tables.Count > 0))
                 {
@@ -1044,6 +1116,7 @@ namespace RationCard.MasterDataManager
                 {
                     //Master CardsOfThisFortnight
                     MasterData.AllCardsOfThisFortnight.Data = ds.Tables[0].AsEnumerable().Select(i => i["RationcardNumbers"].ToString().Trim()).ToList();
+                    //MasterData.AllCardsOfThisFortnight.Data.Add("RKSY-I-1209339175");
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using RationCard.MasterDataManager;
 using RationCard.Model;
 using System;
@@ -67,23 +68,7 @@ namespace RationCard
         {
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                DataSet ds = ConnectionManager.Exec("Sp_AppStart_Details", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
-                {
-                    grdVwAppStart.DataSource = ds.Tables[0].AsEnumerable().Select(i => new AppStart
-                    {
-                        App_Start_His_Id = i.Field<int>("App_Start_His_Id").ToString(),
-                        Mac_Id = i["Mac_Id"].ToString(),
-                        Ip = i["Internal_Ip"].ToString(),
-                        PublicIp = i["Public_Ip"].ToString(),
-                        Gateway = i["Gateway_Addr"].ToString(),
-                        Created_Date = i["Created_Date"].ToString(),
-                        Last_Updated_Date = i["Last_Updated_Date"].ToString(),
-                        Updated_by = i["Updated_by"].ToString()
-                    }).ToList();
-                }
+                grdVwAppStart.DataSource = DBSaveManager.LoadAppStartHis();
             }
             catch (Exception ex)
             {
@@ -92,15 +77,16 @@ namespace RationCard
         }
         private void FlushAppHistory()
         {
+            bool isSuccess = false;
+            string statusMsg = string.Empty;
+
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                DataSet ds = ConnectionManager.Exec("Sp_AppStart_Flush", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
+                DBSaveManager.FlushAppHistory(out statusMsg, out isSuccess);
+                if (isSuccess)
                 {
                     LoadAppStartHis();
-                    MessageBox.Show(ds.Tables[0].Rows[0][0].ToString());
+                    MessageBox.Show(statusMsg);
                 }
             }
             catch (Exception ex)

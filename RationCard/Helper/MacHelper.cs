@@ -16,26 +16,7 @@ namespace RationCard.Helper
             isSuccess = false;
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = distId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = mac });
-                sqlParams.Add(new SqlParameter { ParameterName = "@remark", SqlDbType = SqlDbType.VarChar, Value = remark });
-                sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = operation });
-                DataSet ds = ConnectionManager.Exec("Sp_Add_Remove_Mac_Id", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
-                {
-                    mcs.AddRange(ds.Tables[0].AsEnumerable().Select(i => new MacIdAssigned
-                    {
-                        Mac_Id_Identity = i["Mac_Id_Identity"].ToString(),
-                        Mac_Id = i["Mac_Id"].ToString(),
-                        Remarks = i["Remarks"].ToString(),
-                        Created_Date = i["Created_Date"].ToString()
-                    }));
-                    isSuccess = true;
-                }
-                else
-                    isSuccess = false;
+                mcs = DbSaveFireAndForget.DBSaveManager.GetMacAddrsFromDb(distId, mac, macIdType, startFormName, remark, operation, out isSuccess);
             }
             catch (Exception ex)
             {

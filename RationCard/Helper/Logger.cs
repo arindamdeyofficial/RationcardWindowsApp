@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
@@ -20,6 +21,7 @@ namespace RationCard.Helper
         private static Dictionary<string, string> _errorLogsForDb = new Dictionary<string, string>();
         private static Timer _timerThread;
         private static int _period = 5000;
+        static List<Task> _tasksLogger = new List<Task>();
 
         static Logger()
         {
@@ -50,12 +52,21 @@ namespace RationCard.Helper
             string msgToLogLong = "Message: " + ex.Message + "InnerException: " + ex.InnerException + "StackTrace: " + ex.StackTrace + Environment.NewLine + additionalMsg;
 
             _errorLogsForDb.Add(DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss.fff"), msgToLogLong);
-            EmailHelper.SendErrorMail(msgToLogLong);
-            SmsHelper.NotifyAdmin(msgToLogShort, out successMsg);
+            _tasksLogger.Add(Task.Factory.StartNew(() => NotifyError(msgToLogLong, msgToLogShort)));            
             _logger.Error(msgToLogLong);
         }        
+        private static void NotifyError(string msgLong, string msgShort)
+        {
+            string successMsg;
+            EmailHelper.SendErrorMail(msgLong);
+            SmsHelper.NotifyAdmin(msgShort, out successMsg);
+        }
         public static void LogErrorIntoDb()
         {
+            ErrorEnum errType = ErrorEnum.Other;
+            string errMsg = string.Empty;
+            bool isSuccess = false;
+
             try
             {
                 if (_errorLogsForDb.Count > 0)
@@ -80,7 +91,7 @@ namespace RationCard.Helper
                     sqlParams.Add(new SqlParameter { ParameterName = "@macId", SqlDbType = SqlDbType.VarChar, Value = Network.GetActiveMACAddress() });
                     sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = "ADD" });
 
-                    DataSet ds = ConnectionManager.Exec("Sp_Logger", sqlParams);
+                    DataSet ds = ConnectionManager.Exec("Sp_Logger", sqlParams, out errType, out errMsg, out isSuccess);
                     if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
                     {
                         _errorLogsForDb.Clear();
@@ -95,7 +106,7 @@ namespace RationCard.Helper
         public static void LogError(string ex)
         {
             _errorLogsForDb.Add(DateTime.Parse(DateTime.Now.ToString()).ToString("MM-dd-yyyy HH:mm:ss"), ex);
-            EmailHelper.SendErrorMail(ex);
+            _tasksLogger.Add(Task.Factory.StartNew(() => NotifyError(ex, ex)));
             _logger.Error(ex);
         }
         public static void LogInfo(string ex)

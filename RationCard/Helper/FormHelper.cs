@@ -99,7 +99,7 @@ namespace RationCard.Helper
             {
                 FrmRationEntry rationEntry = new FrmRationEntry();
                 rationEntry.Show();
-                rationEntry.RefreshCatWiseCount();
+                rationEntry.RefreshCatWiseCountInUi();
                 frmObj = rationEntry;
             }
             return frmObj;

@@ -1,4 +1,5 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using RationCard.MasterDataManager;
 using RationCard.Model;
 using System;
@@ -32,44 +33,19 @@ namespace RationCard.HelperForms
         }
         public void OperateOrphanRecords(string action)
         {
+            bool isSuccess = false;
+            var rationCards = new List<RationCardDetail>();
+            var customers = new List<Customer>();
+
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = ((Distributor)cmbUserList.SelectedItem).Dist_Id });
-                sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = action });
-                DataSet ds = ConnectionManager.Exec("Sp_OrphanCardAndCustomer", sqlParams);
+                string distId = ((Distributor)cmbUserList.SelectedItem).Dist_Id;
+                DBSaveManager.OperateOrphanRecords(distId, action, out isSuccess, out rationCards, out customers);
 
-                if ((ds != null) && (ds.Tables.Count > 1))
+                if (isSuccess)
                 {
-                    grdVwOrphanCards.DataSource = ds.Tables[0].AsEnumerable().Select(i => new RationCardDetail
-                    {
-                        RationCard_Id = i.Field<int>("RationCard_Id").ToString(),
-                        Number = i.Field<string>("Number"),
-                        Card_Category_Id = i.Field<int>("Card_Category_Id").ToString(),
-                        Customer_Id = i.Field<int>("Customer_Id").ToString(),
-                        Dist_Id = i.Field<int>("Dist_Id").ToString(),
-                        Remarks = i.Field<string>("Remarks"),
-                        ActiveCard = i.Field<bool>("Active"),
-                        Card_Created_Date = i.Field<DateTime>("Created_Date").ToString()
-                    }).ToList();
-
-                    grVwOrphanCustomers.DataSource = ds.Tables[1].AsEnumerable().Select(i => new Customer
-                    {
-                        Customer_Id = i.Field<int>("Customer_Id").ToString(),
-                        Name = i.Field<string>("Name"),
-                        Hof_Flag = i.Field<bool>("Hof_Flag").ToString(),
-                        Age = i.Field<int>("Age").ToString(),
-                        Address = i.Field<string>("Address"),
-                        RationCard_Id = i.Field<string>("RationCard_Id").ToString(),
-                        Hof_Id = i.Field<int>("Hof_Id").ToString(),
-                        Dist_Id = i.Field<int>("Dist_Id").ToString(),
-                        Adhar_No = i.Field<string>("Adhar_No"),
-                        Relation_With_Hof = i.Field<string>("Relation_With_Hof"),
-                        Gaurdian_Name = i.Field<string>("Gaurdian_Name"),
-                        Mobile_No = i.Field<string>("Mobile_No"),
-                        ActiveCustomer = i.Field<bool>("Active"),
-                        Customer_Created_Date = i.Field<DateTime>("Created_Date").ToString()
-                    }).ToList();
+                    grdVwOrphanCards.DataSource = rationCards;
+                    grVwOrphanCustomers.DataSource = customers;
                 }
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using log4net;
 using log4net.Config;
 using RationCard.Model;
+using RationCard.DbSaveFireAndForget;
 
 namespace RationCard.Helper
 {
@@ -19,37 +20,10 @@ namespace RationCard.Helper
             successMsg = "";
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Name", SqlDbType = SqlDbType.VarChar, Value = name });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mobile_No", SqlDbType = SqlDbType.VarChar, Value = mobileNo });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Address", SqlDbType = SqlDbType.VarChar, Value = address });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Email", SqlDbType = SqlDbType.VarChar, Value = email });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Profile_Pic_Path", SqlDbType = SqlDbType.VarChar, Value = profilePicPath });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Password", SqlDbType = SqlDbType.VarChar, Value = password });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mac_Check", SqlDbType = SqlDbType.Bit, Value = macChekRequired ? 1 : 0 });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Fps_Code", SqlDbType = SqlDbType.VarChar, Value = fpsCode });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Fps_Liscence_No", SqlDbType = SqlDbType.VarChar, Value = fpsLiscenceNo });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mr_Shop_No", SqlDbType = SqlDbType.VarChar, Value = mrShopNo });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = mac });
-                sqlParams.Add(new SqlParameter { ParameterName = "@remark", SqlDbType = SqlDbType.VarChar, Value = remark });
-                sqlParams.Add(new SqlParameter { ParameterName = "@code", SqlDbType = SqlDbType.VarChar, Value = code });
-                sqlParams.Add(new SqlParameter { ParameterName = "@operation", SqlDbType = SqlDbType.VarChar, Value = "ADD" });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Distributor_Operate", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
-                {
-                    if (ds.Tables[0].Rows[0][0].ToString().Equals("SUCCESS"))
-                    {
-                        successMsg = ds.Tables[0].Rows[0][1].ToString();
-                    }
-                    else if (ds.Tables[0].Rows[0][0].ToString().Equals("FAILURE"))
-                    {
-                        successMsg = ds.Tables[0].Rows[0][1].ToString();
-                    }
-                }
-                else
-                    successMsg = "Not able to register new user. Please contact admin.";
+                DBSaveManager.RegisterNewUser(name, mobileNo, address, email, profilePicPath
+            , login, password, macChekRequired, fpsCode, fpsLiscenceNo, mrShopNo
+            , mac, remark, code
+            , out successMsg);
             }
             catch (Exception ex)
             {
@@ -59,36 +33,10 @@ namespace RationCard.Helper
 
         public static void RemoveUser(string userId, out bool isSuccess)
         {
-            List<MacIdAssigned> mcs = new List<MacIdAssigned>();
-            isSuccess = true;
+            isSuccess = false;
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Login", SqlDbType = SqlDbType.VarChar, Value = userId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Name", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mobile_No", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Address", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Email", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Profile_Pic_Path", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Password", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mac_Check", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Fps_Code", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Fps_Liscence_No", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@Dist_Mr_Shop_No", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@remark", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@code", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-                sqlParams.Add(new SqlParameter { ParameterName = "@operation", SqlDbType = SqlDbType.VarChar, Value = "REMOVE" });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Distributor_Operate", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0))
-                {
-
-                    isSuccess = true;
-                }
-                else
-                    isSuccess = false;
+                DBSaveManager.RemoveUser(userId, out isSuccess);
             }
             catch (Exception ex)
             {
@@ -98,36 +46,8 @@ namespace RationCard.Helper
 
         public static bool DoLogin(string userId, string password, string macId, out string msg)
         {
-            bool isSuccess = false;
-            msg = string.Empty;
-            try
-            {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@userId", SqlDbType = SqlDbType.VarChar, Value = userId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@pass", SqlDbType = SqlDbType.VarChar, Value = password });
-                sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = macId });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Login", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
-                {
-                    if (ds.Tables[0].Rows[0][0].ToString() == "SUCCESS")
-                    {                        
-                        Logger.LogInfo("Login successful.");
-                        isSuccess = true;
-                    }
-                    else if (ds.Tables[0].Rows[0][0].ToString() == "FAILURE")
-                    {
-                        msg = ds.Tables[0].Rows[0][1].ToString();
-                        Logger.LogError(msg);
-                        isSuccess = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex);
-            }
+            bool isSuccess;
+            DBSaveManager.DoLogin(userId, password, macId, out msg, out isSuccess);
             return isSuccess;
         }
     }

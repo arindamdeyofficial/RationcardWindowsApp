@@ -46,8 +46,7 @@ namespace RationCard.Helper
         {
             _printDocument.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
             _printDocument.BeginPrint += new PrintEventHandler(PrintDocument_BeginPrint);
-            _prds = prds
-                ;
+            _prds = prds;
             _ReportHeader = ReportHeader;
             _ReportDate = ReportDate;
             _ReportSignature = ReportSignature;
@@ -87,53 +86,22 @@ namespace RationCard.Helper
             //objPPdialog.Document = _printDocument;
             //objPPdialog.ShowDialog();
         }
-        public static string DoFormat(Decimal myNumber)
-        {
-            var s = string.Format("{0:0.00}", myNumber);
-
-            if (s.EndsWith("00"))
-            {
-                return ((int)(myNumber)).ToString();
-            }
-            else
-            {
-                return s;
-            }
-        }
+        
         private static void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
+
+            bool isSuccess = false;
+            int totalNumOfColumn = 0;
+            int totalNumOfHeaderColumn = 0;
+            var columnHeaders = new List<string>();
+
             try
             {
-                List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dtFrom", SqlDbType = SqlDbType.DateTime, Value = DateTime.Parse("01-01-1900").ToString("MM-dd-yyyy HH:mm:ss") });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dtTo", SqlDbType = SqlDbType.DateTime, Value = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") });
-                sqlParams.Add(new SqlParameter { ParameterName = "@operation", SqlDbType = SqlDbType.VarChar, Value = string.Empty });
-
-                DataSet ds = ConnectionManager.Exec("Sp_Stockreport", sqlParams);
-
-                if ((ds != null) && (ds.Tables.Count > 1))
-                {
-                    _totalNumOfColumn = ds.Tables[1].Columns.Count;
-                    _totalNumOfHeaderColumn = ds.Tables[0].Columns.Count;
-                    _columnHeader = ds.Tables[0].Rows[0].ItemArray.Select(i=>i.ToString()).ToArray();
-                    _stkToPrint = ds.Tables[1].AsEnumerable().Select(i => new ProductStockReport
-                    {
-                        Product_Stock_Report_Identity = i["Product_Stock_Report_Identity"].ToString(),
-                        Dist_Id = i["Dist_Id"].ToString(),
-                        Prod_Id = i["Prod_Id"].ToString(),
-                        Cat_Id = i["Cat_Id"].ToString(),
-                        UOM_Id = i["UOM_Id"].ToString(),
-                        OpenningBalance = DoFormat(Decimal.Parse(i["OpenningBalance"].ToString())),
-                        StockRecieved = DoFormat(Decimal.Parse(i["StockRecieved"].ToString())),
-                        TotalStock = DoFormat(Decimal.Parse(i["TotalStock"].ToString())),
-                        StockSold = DoFormat(Decimal.Parse(i["StockSold"].ToString())),
-                        HandlingLoss = DoFormat(Decimal.Parse(i["HandlingLoss"].ToString())),
-                        ClosingBalance = DoFormat(Decimal.Parse(i["ClosingBalance"].ToString())),
-                        Created_Date = DateTime.Parse(i["Created_Date"].ToString()).ToShortDateString()
-                    }).ToList();
-                    _stkToPrint.RemoveAll(i=> !_prds.Any(p=>p.Name.Equals(i.ProdName)));
-                }
+                _stkToPrint = DbSaveFireAndForget.DBSaveManager.GetStockReportDataFromDb(out totalNumOfColumn, out totalNumOfHeaderColumn, out columnHeaders, out isSuccess);
+                _totalNumOfColumn = totalNumOfColumn;
+                _totalNumOfHeaderColumn = totalNumOfHeaderColumn;
+                _columnHeader = columnHeaders.ToArray();
+                _stkToPrint.RemoveAll(i => !_prds.Any(p => p.Name.Equals(i.ProdName)));
             }
             catch (Exception ex)
             {

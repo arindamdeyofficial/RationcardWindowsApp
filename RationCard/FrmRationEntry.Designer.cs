@@ -671,7 +671,7 @@
             // 
             // picNetwork
             // 
-            this.picNetwork.Image = ((System.Drawing.Image)(resources.GetObject("picNetwork.Image")));
+            this.picNetwork.Image = global::RationCard.Properties.Resources.internet;
             this.picNetwork.Location = new System.Drawing.Point(1268, 22);
             this.picNetwork.Name = "picNetwork";
             this.picNetwork.Size = new System.Drawing.Size(91, 82);

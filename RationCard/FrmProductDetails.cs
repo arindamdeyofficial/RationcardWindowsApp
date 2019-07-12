@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 using RationCard.MasterDataManager;
+using RationCard.DbSaveFireAndForget;
 
 namespace RationCard
 {
@@ -526,21 +527,19 @@ namespace RationCard
                 if (prdObjGetSuccessful)
                 {
                     _prd = prd;
-                    try
-                    {
-                        string prdXml = _prd.SerializeXml<Product>();
-                        List<SqlParameter> sqlParams = new List<SqlParameter>();
-                        sqlParams.Add(new SqlParameter { ParameterName = "@distId", SqlDbType = SqlDbType.VarChar, Value = User.DistId });
-                        sqlParams.Add(new SqlParameter { ParameterName = "@prdData", SqlDbType = SqlDbType.Xml, Value = prdXml });
-                        sqlParams.Add(new SqlParameter { ParameterName = "@action", SqlDbType = SqlDbType.VarChar, Value = lblAction.Text });
+                    ErrorEnum errType = ErrorEnum.Other;
+                    string erorrMsg = string.Empty;
+                    bool isSuccess = false;
+                    string saveStatus = string.Empty;
+                    string saveStatusMessage = string.Empty;
+                    string prdName = string.Empty;
 
-                        DataSet ds = ConnectionManager.Exec("Sp_SavePrdToInventory", sqlParams);
-                        if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
-                        {
-                            MessageBox.Show("Status: " + ds.Tables[0].Rows[0]["Status"]
-                                + Environment.NewLine + "Message: " + ds.Tables[0].Rows[0]["StatusMsg"]
-                                + Environment.NewLine + "Name: " + ds.Tables[0].Rows[0]["Name"]);
-                        }
+                    DBSaveManager.ProductSave(prd, lblAction.Text, out errType, out erorrMsg, out isSuccess, out saveStatus, out saveStatusMessage, out prdName);
+                    if(isSuccess)
+                    {
+                        MessageBox.Show("Status: " + saveStatus
+                                + Environment.NewLine + "Message: " + saveStatusMessage
+                                + Environment.NewLine + "Name: " + prdName);
 
                         ResetForm();
 
@@ -549,10 +548,9 @@ namespace RationCard
                         frm.ShowProductsToGrid(MasterData.PrdData.Data);
                         _prd = new Product();
                     }
-                    catch (Exception ex)
+                    else
                     {
                         MessageBox.Show(lblAction.Text + " was not successful");
-                        Logger.LogError(ex);
                     }
                 }
             }

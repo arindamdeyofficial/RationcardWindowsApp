@@ -96,20 +96,27 @@ namespace RationCard
         private void btnStock_Click(object sender, EventArgs e)
         {
             string password = DialogConfirm.ShowInputDialog("Please provide password to continue.", "Confirm with Password");
-            string finalPass = SecurityEncrypt.Decrypt("KTCm5OvX6NpnciMPru+tekzrk7V6/z9Z8Q1A9JaTL6A=", "nakshal"); // ConfigManager.GetConfigValue("ActionConfirmPassword"), "nakshal");
+            try
+            {
+                string finalPass = SecurityEncrypt.Decrypt(ConfigurationManager.AppSettings["CriticalSectionPassword"].ToString(), "nakshal");
 
-            if ((User.IsSuperadmin) || (password == finalPass))
-            {
-                FormHelper.OpenFrmStockSummary();
+                if ((User.IsSuperadmin) || (password == finalPass))
+                {
+                    FormHelper.OpenFrmStockSummary();
+                }
+                else if (password == "")
+                {
+                    MessageBox.Show("Stock openning is discarded by the user");
+                }
+                else
+                {
+                    MessageBox.Show("Wrong Password. Stock needs extra permission to open. Please provide correct password.");
+                }
             }
-            else if (password == "")
+            catch(Exception ex)
             {
-                MessageBox.Show("Stock openning is discarded by the user");
-            }
-            else
-            {
-                MessageBox.Show("Wrong Password. Stock needs extra permission to open. Please provide correct password.");
-            }      
+                Logger.LogError(ex);
+            }             
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)

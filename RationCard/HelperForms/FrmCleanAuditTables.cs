@@ -1,4 +1,5 @@
-﻿using RationCard.Helper;
+﻿using RationCard.DbSaveFireAndForget;
+using RationCard.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,33 +27,15 @@ namespace RationCard.HelperForms
 
         private void DeleteRecord(string tableName)
         {
-            List<SqlParameter> sqlParams = new List<SqlParameter>();
-
-            sqlParams.Add(new SqlParameter { ParameterName = "@tableName", SqlDbType = SqlDbType.VarChar, Value = tableName });
-            sqlParams.Add(new SqlParameter
+            bool isSuccess;
+            DBSaveManager.DeleteAuditRecords(tableName, dtFrom.Value.ToString("MM-dd-yyyy HH:mm:ss"), dtTo.Value.ToString("MM-dd-yyyy HH:mm:ss"), out isSuccess);
+            if (isSuccess)
             {
-                ParameterName = "@dtFrom",
-                SqlDbType = SqlDbType.VarChar,
-                Value = dtFrom.Value.ToString("MM-dd-yyyy HH:mm:ss")
-            });
-            sqlParams.Add(new SqlParameter
+                MessageBox.Show("Records cleaned successfully");
+            }
+            else
             {
-                ParameterName = "@dtTo",
-                SqlDbType = SqlDbType.VarChar,
-                Value = dtTo.Value.ToString("MM-dd-yyyy HH:mm:ss")
-            });
-            DataSet ds = ConnectionManager.Exec("Sp_Clean_Audit_Tables", sqlParams);
-
-            if ((ds != null) && (ds.Tables.Count > 0) && (ds.Tables[0].Rows.Count > 0))
-            {
-                if(ds.Tables[0].Rows[0][0].ToString().Equals("SUCCESS"))
-                {
-                    MessageBox.Show("Records cleaned successfully");
-                }
-                else
-                {
-                    MessageBox.Show("Records cleaning failed");
-                }
+                MessageBox.Show("Records cleaning failed");
             }
         }
 
