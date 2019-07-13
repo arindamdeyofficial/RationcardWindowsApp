@@ -766,3 +766,80 @@ Search result for catid 1 fetch complete on 12-07-2019 19:44:39
 Search result for catid 3 fetch complete on 12-07-2019 19:44:59
 2019-07-12 19:45:01,547 [12] INFO  RationCard.Helper.Logger 
 Search result for catid 4 fetch complete on 12-07-2019 19:45:01
+--------\r\n2019-07-13 11:24:53,944 [1] INFO  RationCard.Helper.Logger _mac.IpAddress192.168.1.106
+2019-07-13 11:24:56,070 [1] INFO  RationCard.Helper.Logger Mac id: D4258BF47531 ipAddr: 192.168.1.106 Gateway: 192.168.1.1Public Ip: 103.74.141.77
+2019-07-13 11:24:58,473 [1] INFO  RationCard.Helper.Logger LoginId: biplabhome@gmail.com EmailId: biplabhome@gmail.com MacId: D4258BF47531 AllowedMacId: D4258BF47531 Name: Arindam Dey MobileNo: 9830609366 DistId: 2 Address: 102, Gandi Para Road East, Subhasgram,Kolkara 700147 ProfilePicPath: \image\arindamdey.png Role Count: 0 LiscenceNo: admin MrShopNo: admin FpsCode: admin
+2019-07-13 11:24:58,791 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:24:58,796 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:25:21,545 [1] INFO  RationCard.Helper.Logger 
+masterdata fetch completed on 13-07-2019 11:25:21
+2019-07-13 11:25:21,833 [1] INFO  RationCard.Helper.Logger Login successful.
+2019-07-13 11:25:21,834 [1] INFO  RationCard.Helper.Logger Logged in disguise as user "jayanta98314@gmail.com"
+2019-07-13 11:25:28,196 [8] INFO  RationCard.Helper.Logger 
+Search result for catid 1 fetch complete on 13-07-2019 11:25:28
+2019-07-13 11:25:51,142 [11] INFO  RationCard.Helper.Logger 
+Search result for catid 4 fetch complete on 13-07-2019 11:25:51
+2019-07-13 11:25:52,006 [10] INFO  RationCard.Helper.Logger 
+Search result for catid 3 fetch complete on 13-07-2019 11:25:52
+2019-07-13 11:26:12,353 [9] INFO  RationCard.Helper.Logger 
+Search result for catid 2 fetch complete on 13-07-2019 11:26:12
+2019-07-13 11:26:19,150 [12] INFO  RationCard.Helper.Logger 
+Search result for catid 5 fetch complete on 13-07-2019 11:26:19
+--------\r\n2019-07-13 11:29:04,917 [1] INFO  RationCard.Helper.Logger _mac.IpAddress192.168.1.106
+2019-07-13 11:29:06,208 [1] INFO  RationCard.Helper.Logger Mac id: D4258BF47531 ipAddr: 192.168.1.106 Gateway: 192.168.1.1Public Ip: 103.74.141.77
+2019-07-13 11:29:08,054 [1] INFO  RationCard.Helper.Logger LoginId: biplabhome@gmail.com EmailId: biplabhome@gmail.com MacId: D4258BF47531 AllowedMacId: D4258BF47531 Name: Arindam Dey MobileNo: 9830609366 DistId: 2 Address: 102, Gandi Para Road East, Subhasgram,Kolkara 700147 ProfilePicPath: \image\arindamdey.png Role Count: 0 LiscenceNo: admin MrShopNo: admin FpsCode: admin
+2019-07-13 11:29:08,341 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:29:08,342 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:30:19,038 [1] ERROR RationCard.Helper.Logger Message: Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.InnerException: System.ComponentModel.Win32Exception (0x80004005): The wait operation timed outStackTrace:    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataSet dataSet, String srcTable, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at RationCard.Helper.ConnectionManager.Exec(String procName, List`1 sqlParams, ErrorEnum& errType, String& errMsg, Boolean& isSuccess) in D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\Helper\ConnectionManager.cs:line 41
+Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+2019-07-13 11:30:19,657 [1] ERROR RationCard.Helper.Logger Message: Cannot find table 9.InnerException: StackTrace:    at System.Data.DataTableCollection.get_Item(Int32 index)
+   at RationCard.MasterDataManager.MasterDataHelper.FetchMasterData() in D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\MasterDataManager\MasterDataHelper.cs:line 165
+
+2019-07-13 11:30:20,299 [1] INFO  RationCard.Helper.Logger Login successful.
+2019-07-13 11:30:20,299 [1] INFO  RationCard.Helper.Logger Logged in disguise as user "jayanta98314@gmail.com"
+--------\r\n2019-07-13 11:31:57,063 [1] INFO  RationCard.Helper.Logger _mac.IpAddress192.168.1.106
+2019-07-13 11:31:59,024 [1] INFO  RationCard.Helper.Logger Mac id: D4258BF47531 ipAddr: 192.168.1.106 Gateway: 192.168.1.1Public Ip: 103.74.141.77
+2019-07-13 11:32:01,273 [1] INFO  RationCard.Helper.Logger LoginId: biplabhome@gmail.com EmailId: biplabhome@gmail.com MacId: D4258BF47531 AllowedMacId: D4258BF47531 Name: Arindam Dey MobileNo: 9830609366 DistId: 2 Address: 102, Gandi Para Road East, Subhasgram,Kolkara 700147 ProfilePicPath: \image\arindamdey.png Role Count: 0 LiscenceNo: admin MrShopNo: admin FpsCode: admin
+2019-07-13 11:32:01,588 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:32:01,593 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:32:22,670 [1] INFO  RationCard.Helper.Logger 
+masterdata fetch completed on 13-07-2019 11:32:22
+2019-07-13 11:32:22,976 [1] INFO  RationCard.Helper.Logger Login successful.
+2019-07-13 11:32:22,976 [1] INFO  RationCard.Helper.Logger Logged in disguise as user "jayanta98314@gmail.com"
+2019-07-13 11:32:29,133 [8] INFO  RationCard.Helper.Logger 
+Search result for catid 1 fetch complete on 13-07-2019 11:32:29
+2019-07-13 11:32:44,353 [11] INFO  RationCard.Helper.Logger 
+Search result for catid 4 fetch complete on 13-07-2019 11:32:44
+2019-07-13 11:32:47,056 [10] INFO  RationCard.Helper.Logger 
+Search result for catid 3 fetch complete on 13-07-2019 11:32:47
+2019-07-13 11:33:02,772 [9] INFO  RationCard.Helper.Logger 
+Search result for catid 2 fetch complete on 13-07-2019 11:33:02
+2019-07-13 11:33:08,747 [12] INFO  RationCard.Helper.Logger 
+Search result for catid 5 fetch complete on 13-07-2019 11:33:08
+--------\r\n2019-07-13 11:34:07,216 [1] INFO  RationCard.Helper.Logger _mac.IpAddress192.168.1.106
+2019-07-13 11:34:08,506 [1] INFO  RationCard.Helper.Logger Mac id: D4258BF47531 ipAddr: 192.168.1.106 Gateway: 192.168.1.1Public Ip: 103.74.141.77
+2019-07-13 11:34:10,355 [1] INFO  RationCard.Helper.Logger LoginId: biplabhome@gmail.com EmailId: biplabhome@gmail.com MacId: D4258BF47531 AllowedMacId: D4258BF47531 Name: Arindam Dey MobileNo: 9830609366 DistId: 2 Address: 102, Gandi Para Road East, Subhasgram,Kolkara 700147 ProfilePicPath: \image\arindamdey.png Role Count: 0 LiscenceNo: admin MrShopNo: admin FpsCode: admin
+2019-07-13 11:34:10,775 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:34:10,778 [1] INFO  RationCard.Helper.Logger LoginId: jayanta98314@gmail.com EmailId: jayanta98314@gmail.com MacId: D4258BF47531 AllowedMacId: 2C56DC3DDC30,802BF966815B Name: Jayanta Ghosh MobileNo: 9073403116 DistId: 1 Address: 27, RNC Road(West), Subhasgram,Kolkara 700147 ProfilePicPath: \image\jayantaghosh.png Role Count: 0 LiscenceNo: 24 P(S)- BRP-RPSP-134301100020 MrShopNo: 11 FpsCode: 134301100020
+2019-07-13 11:34:31,833 [1] INFO  RationCard.Helper.Logger 
+masterdata fetch completed on 13-07-2019 11:34:31
+2019-07-13 11:34:32,115 [1] INFO  RationCard.Helper.Logger Login successful.
+2019-07-13 11:34:32,115 [1] INFO  RationCard.Helper.Logger Logged in disguise as user "jayanta98314@gmail.com"
+2019-07-13 11:34:40,007 [9] INFO  RationCard.Helper.Logger 
+Search result for catid 1 fetch complete on 13-07-2019 11:34:40
+2019-07-13 11:35:04,464 [12] INFO  RationCard.Helper.Logger 
+Search result for catid 4 fetch complete on 13-07-2019 11:35:04
+2019-07-13 11:35:05,199 [11] INFO  RationCard.Helper.Logger 
+Search result for catid 3 fetch complete on 13-07-2019 11:35:05
