@@ -20,7 +20,6 @@ D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\bin\Debug\TextmagicR
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\bin\Debug\AutoMapper.xml
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\bin\Debug\itextsharp.xml
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\bin\Debug\RestSharp.xml
-D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\obj\Release\RationCard.csprojAssemblyReference.cache
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\obj\Release\RationCard.FrmCatwiseCount.resources
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\obj\Release\RationCard.FrmProductDetails.resources
 D:\OneDrive\Code\RationCard\RationcardWindowsApp\RationCard\obj\Release\RationCard.FrmFrontDeskEntry.resources

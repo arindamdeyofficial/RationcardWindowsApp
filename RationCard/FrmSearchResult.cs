@@ -261,10 +261,19 @@ namespace RationCard
 
                 ComboBox cmbHof = (ComboBox)grp3.Controls["cmbHof"];
                 string hofId = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Id"].Value.ToString();
+                var hofObj = MasterData.Hofs.Data.Find(i => i.Customer_Id.Equals(hofId));
+                string hofCardNo = string.Empty;
+                string hofMobileNumber = string.Empty;
+                if(hofObj != null)
+                {
+                    hofCardNo = hofObj.CardNo;
+                    hofMobileNumber = hofObj.Mobile_No;
+                }
+
                 CheckBox hofCheck = (CheckBox)grp3.Controls["chkHof"];
                 hofCheck.Checked = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Flag"].Value.ToString() == "True";
                 string hofName = grdVwSearchResult.Rows[e.RowIndex].Cells["Hof_Name"].Value.ToString();
-                grp3.Controls["cmbHof"].Text = hofName + " || " + cardNo + " || " + mobileNo;
+                grp3.Controls["cmbHof"].Text = hofName + " || " + hofCardNo + " || " + hofMobileNumber;
                 //set selected value for cmbHof
                 cmbHof.SelectedValue = hofId;
                 
