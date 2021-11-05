@@ -31,12 +31,12 @@ namespace RationCard.MasterDataManager
                 sqlParams.Add(new SqlParameter
                 {
                     ParameterName = "@dtFrom",
-                    SqlDbType = SqlDbType.VarChar,
+                    SqlDbType = SqlDbType.DateTime,
                     Value = fetchOnlyRecentData
                                 ? MasterData.DataFetchTime.ToString("MM-dd-yyyy HH:mm:ss")
                                 : DateTime.Parse("01-01-1900").ToString("MM-dd-yyyy HH:mm:ss")
                 });
-                sqlParams.Add(new SqlParameter { ParameterName = "@dtTo", SqlDbType = SqlDbType.VarChar, Value = DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss") });
+                sqlParams.Add(new SqlParameter { ParameterName = "@dtTo", SqlDbType = SqlDbType.DateTime, Value = DateTime.Now.ToString("MM-dd-yyyy HH:mm:ss") });
 
                 DataSet ds = ConnectionManager.Exec("Sp_RationCard_Search", sqlParams, out errType, out errMsg, out isSuccess);
 
