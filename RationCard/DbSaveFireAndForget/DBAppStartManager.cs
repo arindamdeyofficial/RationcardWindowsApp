@@ -163,6 +163,7 @@ namespace RationCard.DbSaveFireAndForget
             }
             catch (Exception ex)
             {
+                msg = ex.Message;
                 Logger.LogError(ex);
             }
             return isSuccess;

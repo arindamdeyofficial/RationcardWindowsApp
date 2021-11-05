@@ -80,7 +80,7 @@ namespace RationCard
             else
             {
                 Logger.LogInfo("unsuccessful Loging in disguise as user \"" + User.LoginId + "\"" + Environment.NewLine + msg);
-                DialogConfirm.ShowInformationDialog("Couldnot login.", "Autologin");
+                DialogConfirm.ShowInformationDialog(String.Format("Couldnot login. Error Details: {0}", msg), "Autologin");
             }
         }
     }

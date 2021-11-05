@@ -23,13 +23,13 @@ namespace RationCard.DbSaveFireAndForget
             sqlParams.Add(new SqlParameter
             {
                 ParameterName = "@dtFrom",
-                SqlDbType = SqlDbType.VarChar,
+                SqlDbType = SqlDbType.DateTime,
                 Value = fromDate
             });
             sqlParams.Add(new SqlParameter
             {
                 ParameterName = "@dtTo",
-                SqlDbType = SqlDbType.VarChar,
+                SqlDbType = SqlDbType.DateTime,
                 Value = toDate
             });
             DataSet ds = ConnectionManager.Exec("Sp_Clean_Audit_Tables", sqlParams, out errType, out errMsg, out isSuccess);
