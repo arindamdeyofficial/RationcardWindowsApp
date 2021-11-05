@@ -2,10 +2,10 @@ IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Sp_Rat
 	DROP PROCEDURE [dbo].[Sp_RationCard_Search]
 GO 
 --EXEC Sp_RationCard_Search 1,'PHONE', '9831125464', '','01/01/1900','12/12/2018'
---EXEC Sp_RationCard_Search 1,'RATIONCARD', 'RKSY-I-1205736042', '','01/01/1900','12/12/2019'
+--EXEC Sp_RationCard_Search 1,'RATIONCARD', 'RKSY-I-1205089616', '','01/01/1900','12/12/2019'
 --EXEC Sp_RationCard_Search 1,'ADHAR', '570108660540', '','01/01/1900','12/12/2019'
 --EXEC Sp_RationCard_Search 1,'HOF', 'ARINDAM', '','01/01/1900','12/12/2019'
---EXEC Sp_RationCard_Search 1,'NAME', 'MAHADEB DAS', '','01/01/1900','12/12/2019'
+--EXEC Sp_RationCard_Search 1,'NAME', 'KALPANA DAS', '','01/01/1900','12/12/2019'
 --EXEC Sp_RationCard_Search 1,'', '', '1','06/03/2016','12/12/2018'
 --EXEC Sp_RationCard_Search 1,'', '', '','01/01/1900','12/12/2018'
 

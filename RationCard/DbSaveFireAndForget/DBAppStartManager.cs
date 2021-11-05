@@ -19,10 +19,12 @@ namespace RationCard.DbSaveFireAndForget
             isSuccess = false;
             string macAddr = Network.GetActiveMACAddress();
             string ipAddrInternal = Network.GetActiveIP();
-            string ipAddrPublic = Network.GetPublicIpAddress();
-            string gateWay = Network.GetActiveGateway();
+            string ipAddrPublic = string.Empty;
+            string gateWay = string.Empty;
             try
             {
+                ipAddrPublic = Network.GetPublicIpAddress();
+                gateWay = Network.GetActiveGateway();
                 Logger.LogInfo("Mac id: " + macAddr + " ipAddr: " + ipAddrInternal + " Gateway: " + gateWay + "Public Ip: " + ipAddrPublic);
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
                 sqlParams.Add(new SqlParameter { ParameterName = "@mac", SqlDbType = SqlDbType.VarChar, Value = macAddr });

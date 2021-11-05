@@ -149,7 +149,7 @@ namespace RationCard.Helper
 
         public static string GetPublicIpAddress()
         {
-            return new System.Net.WebClient().DownloadString("https://api.ipify.org");
+            return new System.Net.WebClient().DownloadString("http://api.ipify.org");
         }
         private static void GetActiveMacAndIpAndGateway()
         {

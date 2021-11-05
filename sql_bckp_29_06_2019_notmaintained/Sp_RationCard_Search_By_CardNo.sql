@@ -1,7 +1,7 @@
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Sp_RationCard_Search_By_CardNo]') AND type in (N'P', N'PC'))
 	DROP PROCEDURE [dbo].[Sp_RationCard_Search_By_CardNo]
 GO 
---EXEC Sp_RationCard_Search_By_CardNo 1, 'RKSY-I-1205736176', '','06/03/2016','04/04/2018'
+--EXEC Sp_RationCard_Search_By_CardNo 1, 'RKSY-I-1205089616', '','06/03/2016','04/04/2019'
 --EXEC Sp_RationCard_Search_By_CardNo 1, '', '1','01/01/1900','12/12/2018'
 
 CREATE PROCEDURE [dbo].[Sp_RationCard_Search_By_CardNo]
